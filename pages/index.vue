@@ -22,7 +22,7 @@
         </div>
         <div v-else class="w-full flex flex-col items-center">
             <a :href="`/?path=${upperPath}`">　戻る　</a>
-
+            {{allPageNum}} {{imageList}}
             <div>
                 <span v-for="num, index in allPageNum" class="inline" :key="num + 'page'">
                     <a :href="`/?path=${originalPath}&page=${index}`">
