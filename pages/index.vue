@@ -22,7 +22,7 @@
         </div>
         <div v-else class="w-full flex flex-col items-center">
             <a :href="`/?path=${upperPath}`">　戻る　</a>
-            {{allPageNum}} {{imageList}}
+            {{allPageNum}} {{imageList}}{{url1}}
             <div>
                 <span v-for="num, index in allPageNum" class="inline" :key="num + 'page'">
                     <a :href="`/?path=${originalPath}&page=${index}`">
@@ -82,6 +82,7 @@ export default {
         const upperPath = ref(joined + '/')
         const allPageNum = ref < Number[] > ([])
         const lastPageNum = ref(0)
+        const url1 = ref("")
 
         const toTop = () => {
             $('body,html').animate({
@@ -126,6 +127,7 @@ export default {
         onMounted(async () => {
 
             const url = `${apiBaseUrl}?path=${path}`
+            url1.value = url
             const res = await axios(url)
 
             if (res.data.type === 'dir') isDir.value = true
@@ -159,6 +161,7 @@ export default {
             isDir,
             baseUrl,
             page,
+            url1,
             nextPage,
             originalPath,
             upperPath,
