@@ -23,7 +23,8 @@
         <div v-else class="w-full flex flex-col items-center">
             <a :href="`/?path=${upperPath}`">　戻る　</a>
             {{allPageNum}} {{imageList}}{{url1}}<br>
-            {{error}}
+            error:{{error}}<br>
+            result: {{result}}<br>
             <div>
                 <span v-for="num, index in allPageNum" class="inline" :key="num + 'page'">
                     <a :href="`/?path=${originalPath}&page=${index}`">
@@ -85,6 +86,7 @@ export default {
         const lastPageNum = ref(0)
         const url1 = ref("")
         const error = ref < any > ("")
+        const result = ref < any > (null)
 
         const toTop = () => {
             $('body,html').animate({
@@ -137,7 +139,7 @@ export default {
                 error.value = e
                 alert(`${e.message}`)
             }
-
+            result.value = res
             if (res.data.type === 'dir') isDir.value = true
             dirList.value = res.data.list
             const lastImageNum = res.data.list.length - 1
@@ -163,6 +165,7 @@ export default {
         })
         return {
             error,
+            result,
             title,
             imageList,
             maxPage,
