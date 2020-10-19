@@ -152,9 +152,6 @@ export default {
             if (isDir.value === false) {
                 const tmpImageList = res.data.list.map((value: any) =>
                     value.Key.replaceAll(' ', '+')
-                    .replaceAll('#', '%23')
-                    .replaceAll('[', '%5B')
-                    .replaceAll(']', '%5D')
                 )
                 imageList.value = tmpImageList.slice(
                     page.value * maxPage,
