@@ -139,7 +139,7 @@ export default {
                 error.value = e
                 alert(`${e.message}`)
             }
-            result.value = res
+            result.value = res.data.list
             if (res.data.type === 'dir') isDir.value = true
             dirList.value = res.data.list
             const lastImageNum = res.data.list.length - 1
