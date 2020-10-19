@@ -130,7 +130,7 @@ export default {
 
             const url = `${apiBaseUrl}?path=${path}`
             url1.value = url
-            let res
+            let res: any = null
             try {
                 res = await axios(url)
             } catch (e) {
