@@ -25,6 +25,7 @@
             {{allPageNum}} {{imageList}}{{url1}}<br>
             error:{{error}}<br>
             result: {{result}}<br>
+            yoko: {{yoko}}
             <div>
                 <span v-for="num, index in allPageNum" class="inline" :key="num + 'page'">
                     <a :href="`/?path=${originalPath}&page=${index}`">
