@@ -85,8 +85,9 @@ export default {
         const allPageNum = ref < Number[] > ([])
         const lastPageNum = ref(0)
         const url1 = ref("")
-        const error = ref < any > ("")
-        const result = ref < any > (null)
+        const error: any = ref("")
+        const result: any = ref(null)
+        const yoko: any = ref(null)
 
         const toTop = () => {
             $('body,html').animate({
@@ -158,6 +159,7 @@ export default {
                     page.value * maxPage,
                     carrentPageLastNum
                 )
+                yoko.value = tmpImageList
             }
             allPageNum.value = [...Array(Math.floor(res.data.list.length / maxPage)).keys()]
             lastPageNum.value = allPageNum.value.length - 1
@@ -165,6 +167,7 @@ export default {
         })
         return {
             error,
+            yoko,
             result,
             title,
             imageList,
