@@ -41,4 +41,8 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
   },
+  env: {
+    S3_BASE_URL: process.env.S3_BASE_URL,
+    API_BASE_URL: process.env.API_BASE_URL
+  },
 }
