@@ -35,7 +35,7 @@
                     <img :src="`${baseUrl}${image}`" />
                 </div>
             </div>
-            <div class="mb-48" ref="imageLast" v-show="lastPageNum !== page">
+            <div class="mb-48" ref="imageLast" v-show="lastPageNum-1 !== page">
                 <a :href="`/?path=${originalPath}&page=${nextPage}`">
                     <img src="~/static/t.png" />
                 </a>
@@ -154,8 +154,8 @@ export default {
                     carrentPageLastNum
                 )
             }
-            allPageNum.value = [...Array(Math.floor(res.data.list.length / maxPage)).keys()]
-            lastPageNum.value = allPageNum.value.length - 1
+            allPageNum.value = [...Array(Math.floor(res.data.list.length / maxPage) + 1).keys()]
+            lastPageNum.value = allPageNum.value.length
 
         })
         return {
