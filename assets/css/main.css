@@ -1,7 +1,10 @@
 
 a {
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0,0,0,.10);
+  color:#1a0dab;
 }
+a:visited {color:#609;} /*訪問済みのリンクの色*/
+a:active {color:#1a0dab;} /*クリック中のリンクの色*/
 img {
   width:100vw ;
   -moz-user-select: none; /* Firefox */
