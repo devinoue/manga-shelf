@@ -76,7 +76,7 @@ export default {
     console.log(ctx)
     const originalPath = ref(ctx.root.context.query?.path ?? '')
     // const maxPage = ref(Number(ctx.root.context.query?.max ?? _maxPage))
-    const maxPage = ref(Number(ctx.root.context.query?.max ?? 0))
+    const maxPage = ref(Number(ctx.root.context.query?.max ?? _maxPage))
     const path = originalPath.value
 
     const page = ref(Number(ctx.root.context.query?.page ?? 0))
