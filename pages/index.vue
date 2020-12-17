@@ -83,7 +83,7 @@ export default {
 
     const page = ref(Number(ctx.root.context.query?.page ?? 0))
     const nextPage = ref(page.value + 1)
-    const editMode = ref(!!ctx.root.context.query?.editMode)
+    const editMode = ref(true)
 
     const imageList = ref([])
     const dirList = ref([])
