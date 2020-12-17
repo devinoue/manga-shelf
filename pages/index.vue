@@ -4,8 +4,12 @@
     <div v-if="!isDir" id="buttons">
       <button class="btn_ bbutton" @click="scrollToPrev">BACK</button><br />
       <button class="btn_ to_top" @click="toTop">TOPへ</button><br />
-      <a :href="`\/?path=${originalPath}&page=${nextPage}&max=1`">
-        1ページずつ開く </a
+      <a :href="`\/?path=${originalPath}&page=${nextPage - 1}&max=1`">
+        1ページずつ開く
+      </a>
+      |
+      <a :href="`\/?path=${originalPath}&page=${nextPage - 1}&editMode=true`">
+        編集 </a
       ><br />
       <a :href="`/?path=${upperPath}`">フォルダに戻る</a>
     </div>
@@ -42,6 +46,9 @@
         </div>
 
         <div v-for="(image, index) in imageList" :key="index + '1'">
+          <p class="w-full flex flex-row-reverse p-3">
+            <AppCopyForm v-if="editMode" :path="`${image}`" />
+          </p>
           <div ref="images" @click="scrollToNext">
             <img :src="`${baseUrl}${image}`" />
           </div>
@@ -59,12 +66,7 @@
 </template>
 
 <script lang="ts">
-import {
-  onMounted,
-  ref,
-  defineComponent,
-  SetupContext,
-} from '@vue/composition-api'
+import { onMounted, ref } from '@vue/composition-api'
 import axios from 'axios'
 import $ from '~/static/jquery.min.js'
 
@@ -81,6 +83,7 @@ export default {
 
     const page = ref(Number(ctx.root.context.query?.page ?? 0))
     const nextPage = ref(page.value + 1)
+    const editMode = ref(!!ctx.root.context.query?.editMode)
 
     const imageList = ref([])
     const dirList = ref([])
@@ -184,6 +187,7 @@ export default {
       title,
       error,
       imageList,
+      editMode,
       maxPage,
       dirList,
       isDir,
