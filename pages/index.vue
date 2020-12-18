@@ -6,11 +6,11 @@
       <button class="btn_ to_top" @click="toTop">TOPへ</button><br />
       <a :href="`\/?path=${originalPath}&page=${nextPage - 1}&max=1`">
         1ページずつ開く
-      </a>
-      |
+      </a><br>
+      <!-- |
       <a :href="`\/?path=${originalPath}&page=${nextPage - 1}&editMode=true`">
         編集 </a
-      ><br />
+      ><br /> -->
       <a :href="`/?path=${upperPath}`">フォルダに戻る</a>
     </div>
 

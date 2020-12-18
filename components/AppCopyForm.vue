@@ -20,17 +20,18 @@
       <option value="一般マンガ/食べ物">食べ物</option>
       <option value="一般マンガ/日用品">日用品</option>
       <option value="一般マンガ/楽しい">楽しい</option>
+      <option value="delete">削除</option>
     </select>
     <button
       class="bg-gray-400 hover:bg-gray-300 text-gray-darkest font-bold py-2 px-4 rounded inline-flex items-center"
       @click="onClicked"
     >
-      保存
+      {{buttonLabel}}
     </button>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api'
+import { computed, defineComponent, ref } from '@vue/composition-api'
 import axios from 'axios'
 export default defineComponent({
   name: '',
@@ -43,7 +44,21 @@ export default defineComponent({
   setup(props: any) {
     const folder = ref('一般マンガ/家具・家電')
     const message = ref('')
+    const buttonLabel = computed(()=>{
+      return folder.value==="delete" ? "削除":"保存"
+    })
     const onClicked = async () => {
+      // 削除の場合
+      if (folder.value === 'delete') {
+        const url = `https://p4ulaokjqa.execute-api.ap-northeast-1.amazonaws.com/dev/delete?path=${props.path}`
+        const res = await axios.get(url)
+
+        message.value = '削除しました。'
+        setTimeout(() => {
+          message.value = ''
+        }, 3000)
+        return
+      }
       const url = `https://p4ulaokjqa.execute-api.ap-northeast-1.amazonaws.com/dev/copy?path=${props.path}&folder=${folder.value}`
       const res = await axios.get(url)
       console.log(res)
@@ -52,7 +67,7 @@ export default defineComponent({
         message.value = ''
       }, 3000)
     }
-    return { message, onClicked, folder }
+    return { message, onClicked, folder,buttonLabel }
   },
 })
 </script>
