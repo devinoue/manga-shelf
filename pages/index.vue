@@ -25,7 +25,7 @@
         </a>
         <div v-for="(dir, index) in dirList" :key="index + '1'">
           <a :href="`/?path=${dir.Prefix}`" class="text-blue-600 text-xl">{{
-            dir.Prefix
+            formattedPrefix(dir.Prefix)
           }}</a
           ><br /><br />
         </div>
@@ -101,6 +101,13 @@ export default {
     const url1 = ref('')
     const error: any = ref('')
 
+
+    const formattedPrefix = (prefix:string)=>{
+      const matches = prefix.match(".+/(.+?)([\?#;].*)?/$")
+      if (matches === null) return
+      const folderName = matches.length > 1 ? matches[1] : ""
+      return folderName
+    }
     const toTop = () => {
       $('body,html').animate(
         {
@@ -202,6 +209,7 @@ export default {
       scrollToPrev,
       allPageNum,
       lastPageNum,
+      formattedPrefix,
     }
   },
 }
