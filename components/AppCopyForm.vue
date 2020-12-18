@@ -16,10 +16,10 @@
       v-model="folder"
       class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none"
     >
-      <option value="一般マンガ/家具・家電">家具家電</option>
-      <option value="一般マンガ/食べ物">食べ物</option>
-      <option value="一般マンガ/日用品">日用品</option>
-      <option value="一般マンガ/楽しい">楽しい</option>
+      <option value="一般マンガ/[切り抜き]家具・家電">家具家電</option>
+      <option value="一般マンガ/[切り抜き]食べ物">食べ物</option>
+      <option value="一般マンガ/[切り抜き]日用品">日用品</option>
+      <option value="一般マンガ/[切り抜き]楽しい">楽しい</option>
       <option value="delete">削除</option>
     </select>
     <button
