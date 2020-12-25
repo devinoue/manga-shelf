@@ -5,8 +5,8 @@
       <button class="btn_ bbutton" @click="scrollToPrev">BACK</button><br />
       <button class="btn_ to_top" @click="toTop">TOPへ</button><br />
       <a :href="`\/?path=${originalPath}&page=${nextPage - 1}&max=1`">
-        1ページずつ開く
-      </a><br>
+        1ページずつ開く </a
+      ><br />
       <!-- |
       <a :href="`\/?path=${originalPath}&page=${nextPage - 1}&editMode=true`">
         編集 </a
@@ -30,6 +30,7 @@
           ><br /><br />
         </div>
       </div>
+      <!-- 以下各画像表示 -->
       <div v-else class="w-full flex flex-col items-center">
         <a :href="`/?path=${upperPath}`">　戻る　</a>
         <div>
@@ -44,7 +45,6 @@
             |
           </span>
         </div>
-
         <div v-for="(image, index) in imageList" :key="index + '1'">
           <p class="w-full flex flex-row-reverse p-3">
             <AppCopyForm v-if="editMode" :path="`${image}`" />
@@ -75,7 +75,6 @@ const baseUrl = process.env.S3_BASE_URL
 const apiBaseUrl = process.env.API_BASE_URL
 export default {
   setup(_props: {}, ctx: any) {
-    console.log(ctx)
     const originalPath = ref(ctx.root.context.query?.path ?? '')
     // const maxPage = ref(Number(ctx.root.context.query?.max ?? _maxPage))
     const maxPage = ref(Number(ctx.root.context.query?.max ?? _maxPage))
@@ -101,11 +100,10 @@ export default {
     const url1 = ref('')
     const error: any = ref('')
 
-
-    const formattedPrefix = (prefix:string)=>{
-      const matches = prefix.match(".+/(.+?)([\?#;].*)?/$")
+    const formattedPrefix = (prefix: string) => {
+      const matches = prefix.match('.+/(.+?)([\?#;].*)?/$')
       if (matches === null) return
-      const folderName = matches.length > 1 ? matches[1] : ""
+      const folderName = matches.length > 1 ? matches[1] : ''
       return folderName
     }
     const toTop = () => {
@@ -169,9 +167,9 @@ export default {
       if (res.data.type === 'dir') isDir.value = true
       dirList.value = res.data.list
       const lastImageNum = res.data.list.length - 1
-      const carrentPageLastNum =
+      const currentPageLastNum =
         page.value * maxPage.value + maxPage.value > lastImageNum
-          ? lastImageNum
+          ? lastImageNum + 1
           : page.value * maxPage.value + maxPage.value
       if (isDir.value === false) {
         const tmpImageList = res.data.list.map((value: any) =>
@@ -182,7 +180,7 @@ export default {
         )
         imageList.value = tmpImageList.slice(
           page.value * maxPage.value,
-          carrentPageLastNum
+          currentPageLastNum
         )
       }
       allPageNum.value = [

@@ -20,13 +20,17 @@
       <option value="一般マンガ/[切り抜き]食べ物">食べ物</option>
       <option value="一般マンガ/[切り抜き]日用品">日用品</option>
       <option value="一般マンガ/[切り抜き]楽しい">楽しい</option>
+      <option value="一般マンガ/[切り抜き]100円ショップ">100円ショップ</option>
+      <option value="一般マンガ/[切り抜き]無印・ニトリその他">
+        無印・ニトリその他
+      </option>
       <option value="delete">削除</option>
     </select>
     <button
       class="bg-gray-400 hover:bg-gray-300 text-gray-darkest font-bold py-2 px-4 rounded inline-flex items-center"
       @click="onClicked"
     >
-      {{buttonLabel}}
+      {{ buttonLabel }}
     </button>
   </div>
 </template>
@@ -44,8 +48,8 @@ export default defineComponent({
   setup(props: any) {
     const folder = ref('一般マンガ/家具・家電')
     const message = ref('')
-    const buttonLabel = computed(()=>{
-      return folder.value==="delete" ? "削除":"保存"
+    const buttonLabel = computed(() => {
+      return folder.value === 'delete' ? '削除' : '保存'
     })
     const onClicked = async () => {
       // 削除の場合
@@ -67,7 +71,7 @@ export default defineComponent({
         message.value = ''
       }, 3000)
     }
-    return { message, onClicked, folder,buttonLabel }
+    return { message, onClicked, folder, buttonLabel }
   },
 })
 </script>
