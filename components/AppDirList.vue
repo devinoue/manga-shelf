@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-col items-center">
+  <div class="w-full flex flex-col">
     <h1 class="font-bold">マンガビューワー</h1>
     <nuxt-link to="/">ホーム</nuxt-link><br />
     <br /><br />
@@ -42,7 +42,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props: Props) {
+  setup(_props: Props) {
     return { formattedPrefix }
   },
 })
