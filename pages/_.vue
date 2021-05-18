@@ -1,53 +1,58 @@
 <template>
-  <div>
+  <div class="flex items-center w-full justify-center">
     <AppTitle :title="title" />
-    <div v-if="!isDir" id="buttons">
-      <button class="btn_ bbutton" @click="scrollToPrev">BACK</button><br />
-      <button class="btn_ to_top" @click="toTop">TOPへ</button><br />
-      <nuxt-link :to="`/${upperPath}`">フォルダに戻る</nuxt-link>
-      <div>
-        <small>{{ formatVol(title) }}</small>
-      </div>
+    <div v-if="isLoading" class="w-full flex items-center">
+      <span class="text-4xl font-bold">ローディング中</span>
     </div>
-
-    <div class="w-full flex flex-col items-center">
-      <br /><br />
-      <AppDirList v-if="isDir" :dir-list="dirList" :upper-path="upperPath" />
-      <!-- 以下各画像表示 -->
-      <div v-else class="w-full flex flex-col items-center">
-        <nuxt-link :to="`/${upperPath}`">🙋‍♀️戻る🙋‍♂️</nuxt-link>
+    <div v-else>
+      <div v-if="!isDir" id="buttons">
+        <button class="btn_ bbutton" @click="scrollToPrev">BACK</button><br />
+        <button class="btn_ to_top" @click="toTop">TOPへ</button><br />
+        <nuxt-link :to="`/${upperPath}`">フォルダに戻る</nuxt-link>
         <div>
-          <span
-            v-for="(num, index) in allPageNum"
-            :key="num + 'page'"
-            class="inline"
-          >
-            <nuxt-link :to="`/${originalPath}${index}/`">
-              {{ num * maxPage + 1 }}～
-            </nuxt-link>
-            |
-          </span>
+          <small>{{ formatVol(title) }}</small>
         </div>
-        <div v-for="(image, index) in imageList" :key="index + '1'">
-          <p class="w-full flex flex-row-reverse p-3">
-            <AppCopyForm :path="`${image}`" />
-          </p>
-          <div ref="images" @click="scrollToNext">
-            <img :src="`${baseUrl}${image}`" />
-          </div>
-        </div>
-        <div v-if="lastPageNum - 1 !== page" ref="imageLast" class="mb-48">
-          <nuxt-link
-            :to="`/${originalPath}${nextPage}`"
-            :src="`/t.png`"
-            tag="img"
-          >
-          </nuxt-link>
-        </div>
-        <div v-else class="mb-48">{{ title }} (了)</div>
       </div>
 
-      <br />
+      <div class="max-w-4xl flex flex-col">
+        <br /><br />
+        <AppDirList v-if="isDir" :dir-list="dirList" :upper-path="upperPath" />
+        <!-- 以下各画像表示 -->
+        <div v-else class="w-full flex flex-col items-center">
+          <nuxt-link :to="`/${upperPath}`">🙋‍♀️戻る🙋‍♂️</nuxt-link>
+          <div>
+            <span
+              v-for="(num, index) in allPageNum"
+              :key="num + 'page'"
+              class="inline"
+            >
+              <nuxt-link :to="`/${originalPath}${index}/`">
+                {{ num * maxPage + 1 }}～
+              </nuxt-link>
+              |
+            </span>
+          </div>
+          <div v-for="(image, index) in imageList" :key="index + '1'">
+            <p class="w-full flex flex-row-reverse p-3">
+              <AppCopyForm :path="`${image}`" />
+            </p>
+            <div ref="images" @click="scrollToNext">
+              <img :src="`${baseUrl}${image}`" />
+            </div>
+          </div>
+          <div v-if="lastPageNum - 1 !== page" ref="imageLast" class="mb-48">
+            <nuxt-link
+              :to="`/${originalPath}${nextPage}`"
+              :src="`/t.png`"
+              tag="img"
+            >
+            </nuxt-link>
+          </div>
+          <div v-else class="mb-48">{{ title }} (了)</div>
+        </div>
+
+        <br />
+      </div>
     </div>
   </div>
 </template>
@@ -67,7 +72,7 @@ export default {
     const pathResult = getFormatPath(ctx.root.$route.params.pathMatch)
 
     const originalPath = ref(pathResult.path)
-
+    const isLoading = ref(false)
     const maxPage = ref(_maxPage)
     const path = originalPath.value
 
@@ -142,10 +147,13 @@ export default {
       url1.value = url
       let res: any = null
       try {
+        isLoading.value = true
         res = await axios(url)
       } catch (e) {
         error.value = e
         alert(`${e.message}`)
+      } finally {
+        isLoading.value = false
       }
       if (res.data.type === 'dir') isDir.value = true
       else isDir.value = false
