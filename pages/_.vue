@@ -2,7 +2,7 @@
   <div class="flex items-center w-full justify-center">
     <AppTitle :title="title" />
     <div v-if="isLoading" class="w-full flex items-center">
-      <span class="text-4xl font-bold">ローディング中</span>
+      <span class="text-4xl font-bold">Now Loading</span>
     </div>
     <div v-else>
       <div v-if="!isDir" id="buttons">
@@ -199,6 +199,7 @@ export default {
       allPageNum,
       lastPageNum,
       formatVol,
+      isLoading,
     }
   },
 }
