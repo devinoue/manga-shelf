@@ -16,7 +16,12 @@
 
       <div class="max-w-4xl flex flex-col">
         <br /><br />
-        <AppDirList v-if="isDir" :dir-list="dirList" :upper-path="upperPath" />
+        <AppDirList
+          v-if="isDir"
+          :dir-list="dirList"
+          :upper-path="upperPath"
+          :preview-path="previewPath"
+        />
         <!-- 以下各画像表示 -->
         <div v-else class="w-full flex flex-col items-center">
           <nuxt-link :to="`/${upperPath}`">🙋‍♀️戻る🙋‍♂️</nuxt-link>
@@ -60,8 +65,12 @@
 <script lang="ts">
 import { onMounted, ref } from '@vue/composition-api'
 import axios from 'axios'
+import UniversalCookie from 'universal-cookie'
 import { getFormatPath, formatVol } from '~/utils/utils'
 import $ from '~/static/jquery.min.js'
+
+// set
+const cookie = new UniversalCookie()
 
 const _maxPage = 40
 const baseUrl = process.env.S3_BASE_URL
@@ -141,7 +150,7 @@ export default {
         200
       )
     }
-
+    const previewPath = ref('')
     onMounted(async () => {
       const url = `${apiBaseUrl}?path=${path}`
       url1.value = url
@@ -157,6 +166,15 @@ export default {
       }
       if (res.data.type === 'dir') isDir.value = true
       else isDir.value = false
+
+      if (isDir.value === false) {
+        cookie.set('previewPath', path)
+      } else {
+        previewPath.value = cookie.get('previewPath')
+          ? cookie.get('previewPath')
+          : ''
+      }
+
       dirList.value = res.data.list
       const lastImageNum = res.data.list.length - 1
       const currentPageLastNum =
@@ -200,6 +218,7 @@ export default {
       lastPageNum,
       formatVol,
       isLoading,
+      previewPath,
     }
   },
 }
