@@ -20,7 +20,7 @@
           v-if="isDir"
           :dir-list="dirList"
           :upper-path="upperPath"
-          :preview-path="previewPath"
+          :preview-paths="previewPaths"
         />
         <!-- 以下各画像表示 -->
         <div v-else class="w-full flex flex-col items-center">
@@ -150,7 +150,8 @@ export default {
         200
       )
     }
-    const previewPath = ref('')
+    // const previewPath = ref('')
+    const previewPaths = ref<string[]>([])
     onMounted(async () => {
       const url = `${apiBaseUrl}?path=${path}`
       url1.value = url
@@ -167,12 +168,24 @@ export default {
       if (res.data.type === 'dir') isDir.value = true
       else isDir.value = false
 
+      previewPaths.value = cookie.get('previewPaths')
+        ? cookie.get('previewPaths')
+        : []
+      console.log(previewPaths.value)
+
       if (isDir.value === false) {
-        cookie.set('previewPath', path)
-      } else {
-        previewPath.value = cookie.get('previewPath')
-          ? cookie.get('previewPath')
-          : ''
+        const newPreviewPaths: string[] = []
+        for (const value of previewPaths.value) {
+          if (value.includes(upperPath.value)) {
+            // nothing
+          } else {
+            newPreviewPaths.push(value)
+          }
+        }
+        newPreviewPaths.push(path)
+        if (newPreviewPaths.length > 40) newPreviewPaths.shift()
+        previewPaths.value = newPreviewPaths
+        cookie.set('previewPaths', newPreviewPaths)
       }
 
       dirList.value = res.data.list
@@ -218,7 +231,8 @@ export default {
       lastPageNum,
       formatVol,
       isLoading,
-      previewPath,
+
+      previewPaths,
     }
   },
 }

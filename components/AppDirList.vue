@@ -8,7 +8,7 @@
     </nuxt-link>
     <div v-for="(dir, index) in dirList" :key="index + '1'">
       <nuxt-link :to="`/${dir.Prefix}`" class="text-blue-600 text-xl">{{
-        formattedPrefix(dir.Prefix, previewPath)
+        formattedPrefix(dir.Prefix, previewPaths)
       }}</nuxt-link>
       <br /><br />
     </div>
@@ -22,14 +22,18 @@ import $ from '~/static/jquery.min.js'
 type Props = {
   dirList: any
   upperPath: string
-  previewPath: string
+  previewPaths: string[]
 }
-const formattedPrefix = (prefix: string, previewPath: string) => {
+const formattedPrefix = (prefix: string, previewPaths: string[]) => {
   const matches = prefix.match('.+/(.+?)([\?#;].*)?/$')
   if (matches === null) return
 
   const folderName = matches.length > 1 ? matches[1] : ''
-  return previewPath.includes(folderName) ? `${folderName}⭐` : folderName
+  let flag = false
+  previewPaths.forEach((path) => {
+    if (path.includes(folderName)) flag = true
+  })
+  return flag ? `${folderName}⭐` : folderName
 }
 
 export default defineComponent({
@@ -43,8 +47,8 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    previewPath: {
-      type: String,
+    previewPaths: {
+      type: Array,
       required: true,
     },
   },
