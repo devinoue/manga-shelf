@@ -7,9 +7,20 @@
       >上のフォルダへ
     </nuxt-link>
     <div v-for="(dir, index) in dirList" :key="index + '1'">
-      <nuxt-link :to="`/${dir.Prefix}`" class="text-blue-600 text-xl">{{
-        formattedPrefix(dir.Prefix, previewPaths)
-      }}</nuxt-link>
+      <template v-if="dirList.length >= 30">
+        <nuxt-link
+          :to="`/${dir.Prefix}`"
+          class="text-blue-600 text-xl"
+          target="_blank"
+          >{{ formattedPrefix(dir.Prefix, previewPaths) }}</nuxt-link
+        >
+      </template>
+      <template v-else>
+        <nuxt-link :to="`/${dir.Prefix}`" class="text-blue-600 text-xl">{{
+          formattedPrefix(dir.Prefix, previewPaths)
+        }}</nuxt-link>
+      </template>
+
       <br /><br />
     </div>
   </div>
