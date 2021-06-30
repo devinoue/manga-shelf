@@ -8,11 +8,11 @@
     </nuxt-link>
     <div v-for="(dir, index) in dirList" :key="index + '1'">
       <template v-if="dirList.length >= 30">
-        <nuxt-link
-          :to="`/${dir.Prefix}`"
-          class="text-blue-600 text-xl"
+        <a
+          :href="`/${dir.Prefix}`"
           target="_blank"
-          >{{ formattedPrefix(dir.Prefix, previewPaths) }}</nuxt-link
+          class="text-blue-600 text-xl"
+          >{{ formattedPrefix(dir.Prefix, previewPaths) }}</a
         >
       </template>
       <template v-else>

@@ -185,7 +185,8 @@ export default {
         newPreviewPaths.push(path)
         if (newPreviewPaths.length > 40) newPreviewPaths.shift()
         previewPaths.value = newPreviewPaths
-        cookie.set('previewPaths', newPreviewPaths)
+        cookie.remove('previewPaths')
+        cookie.set('previewPaths', newPreviewPaths, { path: '/' })
       }
 
       dirList.value = res.data.list
